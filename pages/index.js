@@ -10,7 +10,7 @@ function Home() {
           <p className="text-xl">Siber Güvenlik , Network ,Python ve  Web Uygulamalari Geliştirmekle uğraşıyorum . Kariyerimi ise Ağ Güvenliği Uzmanligi alanina yöneltmek istiyorum.</p>
         </div>
       </div>
-      <div className="max-w-4xl mx-auto mt-10">
+      <div className="site-xl-container mt-20">
         <img src="/secc.jpg" alt="security"></img>
       </div>
     </>
