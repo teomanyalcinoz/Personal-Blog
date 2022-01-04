@@ -1,20 +1,25 @@
+/* eslint-disable react/jsx-no-undef */
 import { getMdxNode, getMdxPaths } from "next-mdx/server"
 import { useHydrate } from "next-mdx/client"
 import { mdxComponents } from "../../components/mdx-component"
+import Button from '@mui/material/Button';
 
 export default function PostPage({ post }) {
-    // const content = useHydrate(post, {
-    //     components: mdxComponents,
-    // })
+    console.log(post)
+    const content = useHydrate(post, {
+        components: mdxComponents
+    })
 
     return (
         <div className="site-container">
             <article>
-                <h1 className="font-bold text-4xl">{ post.frontMatter.title }</h1>
-                <p className="text-3xl">{ post.frontMatter.category }</p>
+                <h1 className="text-4xl font-bold">{ post.frontMatter.title }</h1>
+                <p> Kategori : { post.frontMatter.category }</p>
+
                 <hr className="my-4" />
+
+                <div className="prose">{ content }</div>
             </article>
-            <div className="prose">{ post.content }</div>
 
         </div>
     )
@@ -22,23 +27,23 @@ export default function PostPage({ post }) {
 
 export async function getStaticPaths() {
     return {
-        paths: await getMdxPaths("post"),
-        fallback: false,
+        paths: await getMdxPaths('post'),
+        fallback: false
     }
 }
 
 export async function getStaticProps(context) {
-    const post = await getMdxNode("post", context)
+    const post = await getMdxNode('post', context)
 
     if (!post) {
         return {
-            notFound: true,
+            notFound: true
         }
     }
 
     return {
         props: {
-            post,
-        },
+            post
+        }
     }
 }

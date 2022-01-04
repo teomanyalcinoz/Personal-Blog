@@ -1,0 +1,88 @@
+---
+title: OSINT Nedir?
+excerpt: Open Source Intelligence kelimelerinin kısaltması olarak tanımlanan OSINT, Türkçede Açık Kaynak İstihbaratı manasına gelmektedir.
+image: /images/placeholder.jpg
+category:
+  - Siber Güvenlik
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "04/01/2022"
+---
+
+## OSINT
+Open Source Intelligence kelimelerinin kısaltması olarak tanımlanan OSINT, Türkçede Açık Kaynak İstihbaratı manasına gelmektedir.Pasif bilgi toplama aracıdır.Hedefle birebir yakın temasa geçmeden arkada iz bırakmadan , hedef hakkında bilgi edinme faaliyetini pasif bilgi toplama olarak tanımlayabiliriz.
+
+OSINT herhangi bir gizlilik gerektirmeyen, kamuoyuna açık, belirli bir amaç için toplanan bilgilerin ayrıştırılıp analiz edilerek elde edilen istihbarat faaliyetleri olarak tanımlanır.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6vaxumt82zn2mad05x8v.jpg)
+
+## OSINT Avantajları
+
+- Tamamı olmasa da çoğu OSINT aracının ücretsiz olmasından dolayı bilgi toplama aşamasında yüksek bütçe gerektirmez, maliyeti azaltır.
+- Hedef ile direkt temas kurulmadığından dolayı gizlilik ve güvenlik açısından korunma ihtiyacı gerektirmez. Bundan dolayı sızma testlerinde ek zaman kazancı sağlar.
+
+## OSINT İle Neler Yapılabilir?
+
+- Sosyal medya hesaplarının taranması.
+- Alan adları ile DNS adresi bilgilerinin keşfedilmesi ve mail adreslerinin tespit edilmesi.
+- Kişisel veya kurumsal blogların izlenip analiz edilerek hedef kullanıcının etkinliklerinin gözden geçirilmesi.
+- Google,Bing,Yahoo vb arama motorlarının kullanılarak bilgilerin incelenmesi.
+- Önemli bilgileri ortaya çıkarmak,fikir sahibi olmak için web sitelerinin eski sürümlerini bünyesinde bulunduran Waybak Machine vb. kaynaklar incelenebilir.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n7af3sj88hxfpa3hzutq.jpg)
+
+## Neden OSINT Araçlarına İhtiyaç Duyarız?
+
+Örneğin tüm sosyal medyalarda hedefe yönelik kullanıcı adı taraması yapmak istiyorsunuz.Tek tek bütün sosyal medyaları gezip tarama yapmak oldukça vakit çalar ki bilmediğiniz sosyal medyalar olabilir.OSINT araçlarına ihtiyaç duymamızın ana nedeni budur çünkü yukarıda bahsedilen işlem bu araçlar kullanılarak saniyeler içinde yapılabilir.Peki OSINT için kullanılan araçlar nelerdir?
+
+[OSINT Framework](https://osintframework.com) : İçerisinde çeşitli birçok aracı barındırır.Hedefe ait kullanıcı adı,e-posta,IP adresi telefon numarası,arama motoru,forum veya blog,metadata taramaları yapabilmeyi destekler.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iktfellro868o9ppftom.png)
+
+[Maltego](https://www.maltego.com) : Maltego, Paterva tarafından geliştirilmiş açık kaynaklı istihbarat toplamak ve analiz etmek için kullanılan popüler bir araçtır.Çeşitli kaynaklardan kolayca bilgi toplayabilir ve grafiksel sonuçlar üretmek için çeşitli dönüşümleri kullanabilir.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zjo4gu4uvkf89tn8j4wj.jpg)
+
+
+[Shodan](https://www.shodan.io) : Shodan tıpkı Google gibi bir arama motorudur.Fakat Google'dan farklı olarak bir güvenlik araştırmacısına daha mantıklı gelecek sonuçlar gösterecektir.Shodan, ağa bağlanan varlıklar hakkında size birçok bilgi sağlar.Bunlar bilgisayarlar,dizüstü bilgisayarlar,web kameraları ve çeşitli IoT cihazları olabilir.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cklvq7c2its30i8fdwv3.jpg)
+
+[Google Dorks](https://www.exploit-db.com/google-hacking-database) : Google'da yapacağımız basit bir aramayla birlikte önümüze yüzlerce sayfa sonuç dönecektir.İşte Google Dorks sayesinde yapacağımız aramayı filtreleyip sadece verdiğimiz parametrelere yönelik daha az ama daha işe yarar sonuçların dönmesini sağlarız.En çok kullanılan Google Dorklardan bazıları şunlardır ;
+- Allintext: Verilen tüm terimleri içeren sonuçları listeler.
+- Intext: Verilen tüm terimleri sayfa içeriğinde arar.
+- Inurl: Verilen kelime veya kelime grubunu URL adresinde içeren sonuçları listeler.
+- Allinurl: Verilen tüm terimleri içeren URL adreslerine sahip sonuçları listeler.
+- Intitle: Verilen kelime veya kelime grubunu başlık olarak barındıran sonuçları listeler.
+- Allintitle: Verilen tüm terimleri başlığında barındıran sonuçları listeler.
+- Site: Spesifik bir internet sitesi belirtirken kullanılır.
+- Filetype: Spesifik bir dosya türü belirtirken kullanılır.
+
+Örneğin açık kaynak istihbaratı hakkında pdf kaynaklarına erişmek istiyoruz.Bunun için filetype ve intext filtrelerini kullanabiliriz.
+
+```
+filetype:pdf intext:açık kaynak istihbaratı
+```
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8a2eytlsq1pyhiifw03e.png)
+
+[The Harvester](https://www.kali.org/tools/theharvester/) : The Harvester ,Kali Linux işletim sisteminin bir parçasıdır.Pasif bilgi toplarkan açık kaynak istihbaratı için çok tercih edilen bir araçtır.Harvester kullanarak e-posta adresi,kullanıcı adları,alt alanlar,IP'ler,domain bilgilerini toplayabiliriz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4ld3yjfuz6bhehbq68ia.jpg)
+
+İhtiyacınıza göre keşfedebileceğiniz diğer OSINT araçları;
+
+- Recon-Ng
+- tin Eye
+- Metagoofil
+- SpiderFoot
+- Searchcode
+- Exiftool
+- Dig,Nslookup ve WHOIS gibi çeşitli DNS yardımcı programları
+
+## Sonuç
+Özetle,bu makalemizde OSINT'in ne olduğundan ve ne gibi işlere yaradığından bahsettik.Güvenlikçi bakış açısıyla OSINT veri koruma,tehtid algılama vb için kullanabilir.Öte yandan saldırgan bakış açısıyla OSINT pasif hedefli bilgi toplanarak kimlik avı saldırıları(phishing) ve çeşitli birçok saldırıyı başlatmak amacıyla uygulanabilir.
+Bahsettiğimiz araçlar tek başlarına kullanıldıklarında güçlüdürler fakat birlikte kullanıldıklarında çok daha tehlikelilerdir.
+
+## Yararlanılan kaynaklar
+[https://www.greycampus.com/blog/information-security/top-open-source-intelligence-tools](https://www.greycampus.com/blog/information-security/top-open-source-intelligence-tools)
+[https://www.priviasecurity.com/acik-kaynak-istihbarati-osint-nedir/](https://www.priviasecurity.com/acik-kaynak-istihbarati-osint-nedir/)
