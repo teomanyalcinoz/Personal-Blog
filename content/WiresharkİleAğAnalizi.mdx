@@ -1,0 +1,153 @@
+---
+title: Wireshark İle Ağ Analizi
+excerpt: Daha öncesinde yukarıda bulunan yazıda Wireshark'ın ne olduğundan ne amaçla kullanıldığından bahsetmiştik.Bu yazımızda ise Wireshark aracını kullanarak ağ analizinden bahsedicez.
+image: /images/placeholder.jpg
+category:
+  - Siber Güvenlik
+author:
+  - Teoman Yalçınöz
+featured: true
+date: "04/01/2022"
+---
+
+
+Daha öncesinde yukarıda bulunan yazıda Wireshark'ın ne olduğundan ne amaçla kullanıldığından bahsetmiştik.Bu yazımızda ise Wireshark aracını kullanarak ağ analizinden bahsedicez.
+
+## Wireshark ile DNS analizi
+DNS,Domain Name System’in kısaltılmış halidir.Türkçe karşılığı ise Alan İsimlendirme Sistemi olarak bilinir.DNS’in kullanım amacı son derece basittir, kolay anlaşılabilir ve kullanılabilir makine ve alan isimleri ile makinelerin IP adresleri arasında çift taraflı dönüşümü sağlar. IP adreslerinin gündelik hayatta kullanımı ve hatırlanması pek pratik olmadığı için domain isimlendirme sistemi kullanılır.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/twlnyfq79xknypxzs8do.png)
+Bu uygulamamızda 
+
+```
+nslookup github.com
+```
+ komutunu kullanarak github.com'a bir name server lookup isteği oluşturduk , Wireshark ile ağ üzerindeki akan paketleri görüntüledik bu paketler arasından DNS protokolünü kullanan paketleri filtreledik.Nslookup, yani name server lookup verilen parametreye karşılık DNS sorgusu yapıp bilgileri toplayarak kullanıcının alan adlarını veya IP adreslerini bulmaya yarayan bir araçtır.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/23zxirbp705tr54ohivh.png)
+Ağ trafiğini dinlemeye devam ettik ve birçok paket daha yakaladık.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/noalfo3tiw8a1avbqb8s.png)
+
+```
+dns.qry.name == github.com
+```
+ filtresiyle beraber query name'i sadece github.com olanları sıraladık.Bu aşamadan sonra yakalanan paketlerin üstüne çift tıklayarak paketler hakkında daha detaylı bilgiler edinebilirsiniz.
+
+### DNS İçin Kullanılabilecek Diğer Filtreler
+
+```
+- dns.qry.name == "google.com”
+- “dns.qry.type == 1 (A Record Type)
+- dns.qry.type == 255 (ANY Record Type)
+- dns.qry.type == 2 (NS name server)
+- dns.qry.type == 15(MX mail exchange
+```
+
+##Wireshark ile ARP Analizi
+Cihazlar MAC adresleri üzerinden haberleşmekteydi. Bu yüzden de ağ üzerindeki cihazların birbirleri ile paket alışverişi yapabilmesi için MAC adreslerini öğrenmeleri gerekiyordu ve bu öğrenme işlemi IP’si bilinen bir cihazın MAC adresinin öğrenilmesini sağlayan ARP protokolü ile gerçekleştirilir.
+Bu uygulamada ise ARP protokolünü kullanan paketleri yakalayıp analiz edicez.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q7nfrjcj1x4ybtxctii5.png)
+Başlarken ilk adımda 
+
+```
+route –n
+```
+komutu ile default-gateway ip adresimizi öğrendik ve not ettik.
+
+Gönderilecek paketin hedef IP'sinin bulunduğu ağ,gönderilen paketin ağından farklıysa, paketin orijinal ağın dışına yönlendirilmesi gerekir. Bunu yapmak için, paket gatewaye gönderilir. Yani basit manada default-gateway, yerel ağa bağlı bir yönlendirici arabirimidir.
+
+Ardından Wireshark ile paket yakalama işlemini başlattık.​
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pv2tacf2wjpbuofciius.png)
+
+```
+ping <default gateway>
+```
+komutuyla gatewaye ping işlemini başlattık ve ARP protokolü kullanan paketlerimizi yakaladık.
+Bir başka yöntemde ise ; paket yakalama işlemini başlatıyoruz ardından 
+
+```
+arp-scan –l 
+```
+komutu ile tüm ağa arp request yolluyoruz (broadcast).
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/occffmkqgeja7mvmioty.png)
+
+Yapılacak filtrelemelerle yakalanan paketleri ARP reply veya ARP request olarak sınıflandırabiliriz.​
+
+### ARP İçin Kullanılabilecek Diğer Filtreler
+```
+- arp.src.hw_mac == “Kaynak mac adresi”
+- arp.dst.hw_mac == “Hedef mac adresi”
+- arp.duplicate-address-frame
+- arp.opcode == 2             ARP REPLY​
+- arp.opcode == 1             ARP REQUEST 
+```
+## Wireshark ile ICMP/Ping Analizi
+####ICMP(Internet Control Message Protocol):​
+Ağ cihazları için hata raporlama protokolüdür.Paket iletiminde sorun oluştuğunda kaynak ip adresine hata mesajları üretir. IP adresi olan her ağ cihazının icmp paketi gönderme alma ve işleme kapasitesi vardır.​
+ICMP protokolü genelde uygulamalarda pek tercih edilen bir protokol değildir daha çok ağ yöneticileri tarafından ağ bağlantı testlerinde kullanılan komutlarla yapılır. (ping, traceroute ..)
+
+Ping ise bir bilgisayara gönderilen ve yanıt isteyen bir sinyal paketidir.Kaynak makinenin o anda çalışabilir durumda olduğunu gösterir.Ping aracını genelde ağ ve sistem yöneticileri yerel veya uzak hostun erişilebilirliğini test ederler.​
+
+Uygulama kısmında Wireshark ile paket yakalama işlemine başlıyoruz ve ardından icmp filtrelemesini uyguluyoruz.​
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n35ir7v9jd1gxoil94jv.png)
+```
+ping google.com 
+```
+komutuyla birlikte ping işlemini başlatıyoruz.​Ardından Wireshark tarafından yakalanan paketlerle birlikte detaylı analizi yapabiliriz.
+
+##Wireshark ile HTTP Analizi
+HTTP;Hyper Text Transfer Protocol ,en temelde farklı sistemler arasında iletişime izin verir. En yaygın olarak kullanıcıların web sayfalarını görüntülemesine izin vermek için bir web sunucusundan bir tarayıcıya veri aktarmak için kullanılır.
+
+HTTPS;HTTP Secure , normal HTTP protokolündeki sorun ,sunucudan tarayıcıya akan bilgilerin şifrelenmemiş olmasıdır.Bu da kolayca çalınabileceği anlamına gelir.HTTPS protokolü,sunucu ile tarayıcı arasında güvenli bir şifreli bağlantı oluşturmaya yardımcı olan ve aktarım sırasında potansiyel olarak hassas bilgilerin çalınmasını önleyen bir SSL sertifikası kullanır.​​
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iob3qcwaykmnxbzm5ec7.png)
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8cpovt4jk5zywo6tdcy0.png)
+Bu uygulamamızda Wireshark ile paket yakalama işlemini başlattık. Ardından http filtresini uygulayıp yakalanan paketleri filtreledik.​
+Rastgele http bir siteye girip internet trafiği oluşturduk bu sayede çok sayıda http paketi yakaladık.
+
+Yakalanan paketleri
+
+```
+- http.request.method == "GET"        ​
+- http.request.method == "POST"
+```
+filtrelemelerini kullanarak GET ve POST olarak ayırabiliriz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yof1c8vs3v3j8drk009z.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7ye99g9iah5zpuzhv5r4.png)
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ypvwynervylqb7xleoky.png)
+Bu uygulamamızda ise http filtresi uygulayıp wireshark ile paket yakalamayı başlattık. Ardından login bölümüne geçersiz yani sahte bir çift kullanıcı adı ve şifre girdik.Ardından 130 nolu pakette HTTP POST paketini yakaladık bunu detaylı inceleyelim.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6gf2ouyiq0v4yhq441og.png)
+Wireshark HTTP POST paketinin beraberinde giriş bilgilerini de yakalamış oldu.​
+
+### HTTP İçin Kullanılabilecek Diğer Filtreler
+```
+- http.response.code == “200”
+- http.user_agent == “User_Agent_Değeri”
+- http.referer
+```
+
+## Sonuç:
+Özetle bu makalemizde Wireshark aracını kullanarak çeşitli ağ içi analizler yaptık ve bunların sonucunda yakalanan paketlerden bilgiler edindik.Wireshark aracıyla daha pek çok farklı protokolü kullanan (DHCP,FTP,TCP,UDP...) paketleri analiz edebiliriz.Bu makaleden sonra ağımızda bulunan bir bilgisayara veya herhangi bir cihaza saldırı olduğundan kuşkulanıyorsak Wiresharkla ağ trafiğini analizleyip kuşkumuzu giderebiliriz :)
+
+
+## Yararlanılan kaynaklar
+[https://www.greycampus.com/blog/information-security/top-open-source-intelligence-tools](https://www.greycampus.com/blog/information-security/top-open-source-intelligence-tools)
+[https://www.priviasecurity.com/acik-kaynak-istihbarati-osint-nedir/](https://www.priviasecurity.com/acik-kaynak-istihbarati-osint-nedir/)

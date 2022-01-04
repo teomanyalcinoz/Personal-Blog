@@ -1,0 +1,60 @@
+---
+title: Wireshark
+excerpt: Wireshark,ağda hareket eden veri paketlerini yakalayan ve görüntüleyen açık kaynaklı ücretsiz bir paket analiz yazılımıdır.
+image: /images/placeholder.jpg
+category:
+  - Siber Güvenlik
+author:
+  - Teoman Yalçınöz
+featured: true
+date: "04/01/2022"
+---
+
+## Wireshark Nedir?
+Wireshark,ağda hareket eden veri paketlerini yakalayan ve görüntüleyen açık kaynaklı ücretsiz bir paket analiz yazılımıdır.  Wireshark uygulamasının kurulu olduğu bilgisayar üzerinden anlık network trafiği izlenebileceği gibi,daha önce kaydedilmiş trafiğe ait dosyaların incelenmesi amacı ile de kullanılabilir.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vblfn7e8bde06rv9l9mv.jpg)
+## Kullanım Alanları
+- Ağ yöneticileri,ağ içerisindeki hataları tespit edip gidermek için kullanır.​
+- Ağ güvenliği mühendisleri,güvenlik sorunlarını incelemek için kullanır.​
+- Geliştiriciler bunu protokol uygulamalarında hata ayıklamak için kullanır​
+- Eğitim amacıyla ağ paket ve protokollerini öğrenmek için kullanır.​
+## Kurulumu
+## 1)Windows
+[https://www.wireshark.org/download.html](https://www.wireshark.org/download.html) adresinden indirilebilir ve standart kurulum adımları uygulanarak kurulum işlemi gerçekleştirilebilir.
+## 2)Linux
+apt-get komut satırı aracında sudo apt-get install wireshark komutu ile gerekli paketlerin edinilmesi ve yükleme işlemi gerçekleştirilebilir.
+
+Kali Linux işletim sistemi üzerinde Application > Sniffing & Spoofing > Wireshark adımlarını takip ederek uygulamayı başlatıyoruz.Hemen arayüzü incelemeye başlayalım.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uchq67sd9mdgn0bzihoh.png)
+Ağ trafiğini izlemek amacı ile kullanılabilecek ağ kartları gösterilmektedir.Hemen üstünde ise paketler yakalanmaya başlandığında kullanılacak filtre buradan tanımlanabilir.
+- eth0 : Ethernet kartı cihazı.
+- lo: Lookback interface. Yerel ağ'ın oluşması, 127.0.0.1 IP adresinin bir yere işaret edebilmesi için oluşan sanal cihaz.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zia0wnih6ocus97ta3fl.png)
+1. Yakalanan paketlerin listelendiği kısımdır.
+2. Paketle ilgili detayların görüntülendiği kısımdır.​
+3. Seçilen paketin ham verilerinin hexadecimal ve ASCII karşılıklarının göründüğü kısımdır.
+
+## Paket Yakalama Algoritma Diyagramı
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0fljw4kjpqigfcd42bkx.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rn9srbhajuk4sdvzq8tz.png)
+Ağ trafiğini izlemeye başladık ardından gelen paketleri "tcp" anahtar kelimesini kullanarak filtreledik​.
+Paketin üstüne çift tıklanınca paketle ilgili detaylı bilgilerin olduğu pencere açılır.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/az3jb0oz1720ot3soltp.png)
+İlk katmanda paketin iletilme tarihi,boyut, sıra ve kullanılan protokol hakkıda bilgi verir​.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/20hsfs73cm1vm6tbr281.png)
+Şimdi sıra 2. Katmana yani data (veri) katmanına geldi.Bu katmanda protokol olarak Ethernet kullanılmaktadır.​
+Bu katmanda kaynak ve hedef sisteme ait MAC adresi bilgisine ulaşılabilirsiniz.​
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5z1f6utvfa4lr1vsb5af.png)
+Diğer bir katman ise network (ağ) katmanıdır ve protokol olarak IP kullanılmaktadır.Bu katmanda ise kaynak ve hedef IP adresi,IP adresinin kullanım versiyonu ve Header boyutu bilgileri bizlere sunulur.​​
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2jl40bxfgu6kjqwn9ab6.png)
+Bir diğer katman ise Transport ve Application katmanına ait bilgiler içerir.​Transport katmanında gelen ve giden port numaraları bu katmana dair Header bilgileri yer alır.
+
+## Sonuç:
+Özetle bu makalemizde Wireshark'ın ne olduğunu ve hangi amaçlarla kullanıldığından bahsettik.Kurulumu ve kullanımı oldukça basit olan    
+bu araç yerine göre doğru kullanımda ağ yöneticilerinin eli ayağı olmaktadır.
+
+## Yararlanılan Kaynaklar
+
+1. [https://www.nolto.com/bilisim/wireshark-nedir-nasil-kullanilir/​](https://www.nolto.com/bilisim/wireshark-nedir-nasil-kullanilir/​)
+2. [https://www.beyaz.net/tr/guvenlik/makaleler/wireshark_nasil_kullanilir.html​](https://www.beyaz.net/tr/guvenlik/makaleler/wireshark_nasil_kullanilir.html​)
