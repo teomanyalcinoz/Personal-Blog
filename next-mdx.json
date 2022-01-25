@@ -6,6 +6,7 @@
         "sortOrder": "desc"
     },
     "category": {
-        "contentPath": "content/categories"
+        "contentPath": "content/categories",
+        "basePath": "/blog/categories"
     }
 }
