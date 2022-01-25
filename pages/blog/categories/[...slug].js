@@ -1,27 +1,17 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable @next/next/link-passhref */
+import { getAllNodes, getMdxPaths, getNode } from "next-mdx"
 import Link from 'next/link'
-import { getAllNodes } from 'next-mdx/server'
 import { AiOutlineArrowRight } from 'react-icons/ai';
-import { positions } from '@mui/system';
 
-function BlogPage({ posts }) {
-    console.log(posts)
+export default function CategoryPage({ category, posts }) {
     return (
         <div className="site-container">
+            <h1 className="text-4xl font-bold text-violet-400 mb-5 text-center">{ category.frontMatter.name }</h1>
             <div className="space-y-10">
                 { posts.map((post) => {
                     return (
                         <article key={ post.url }>
-
-                            <button className="text-xl border-2 rounded-full bg-violet-200">
-                                { post.relationships.category?.map((category, index) => (
-                                    <span fontWeight="semibold" key={ category.slug }>
-                                        { index !== 0 && " and " }{ "  " }
-                                        <Link href={ category.url }>{ category.frontMatter.name }</Link>
-                                    </span>
-                                )) }
-                            </button>
                             <h2 className="text-2xl font-bold hover:text-violet-400">
                                 <Link href={ post.url }>
                                     <p >{ post.frontMatter.title }</p>
@@ -46,12 +36,30 @@ function BlogPage({ posts }) {
     )
 }
 
-export async function getStaticProps() {
+export async function getStaticPaths() {
     return {
-        props: {
-            posts: await getAllNodes('post')
-        }
+        paths: await getMdxPaths("category"),
+        fallback: false,
     }
 }
 
-export default BlogPage
+export async function getStaticProps(context) {
+    const category = await getNode("category", context)
+
+    if (!category) {
+        return {
+            notFound: true,
+        }
+    }
+
+    const posts = await getAllNodes("post")
+
+    return {
+        props: {
+            category,
+            posts: posts.filter((post) =>
+                post?.relationships?.category?.some(({ slug }) => slug === category.slug)
+            ),
+        },
+    }
+}
