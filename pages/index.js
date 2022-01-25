@@ -11,8 +11,8 @@ function Home() {
           <p className="text-2xl">Merhaba, ben Teoman Yalçinöz.</p>
           <p className="text-2xl">Bursa'nın Osmangazi ilçesinde doğdum.Yalova'da yaşıyorum.Yalova Şehit Osman Altınkuyu Anadolu Lisesi mezunuyum
             .Şuan hala devam etmekte olduğum Yalova Üniversitesi Bilgisayar Mühendisliği 3. sınıf öğrencisiyim.</p>
-          <p className="text-2xl"> Siber Güvenlik , Network , Adli Bilişim alanlarında araştırmalar ve çalışmalar yapmaktayım.İleride daha çok Ağ Güvenliği
-            alanında kariyer yapmak istiyorum.Bu hedefime yönelik ise CCNA 200-301 çalışıyorum.Bunların dışında ise şu sıralar Python,Bash,web programlama üzerinde çalışmalar yapıyorum.
+          <p className="text-2xl"> Siber Güvenlik , Network , Web Programlama alanlarında araştırmalar ve çalışmalar yapmaktayım.İleride daha çok Ağ Güvenliği
+            alanında kariyer yapmak istiyorum.Bu hedefime yönelik ise CCNA 200-301 çalışıyorum.Bunların dışında ise şu sıralar Python,Bash ve Vue.js üzerinde çalışmalar yapıyorum.
             Türkçe kaynakların çoğalması adına da bahsettiğim bu alanlarda edindiğim bilgileri sizlerle paylaşmaya çalışacağım.
           </p>
         </div>

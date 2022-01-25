@@ -1,0 +1,111 @@
+---
+title: OSI Referans Modeli
+excerpt: Ağ kavramı ilk ortaya çıktığından 70'li yılların sonlarına kadar, bilgisayarlar sadece aynı üreticilerin ürettiği bilgisayarlarla iletişim kurardı.Yani farklı marka bilgisayarlar birbirleri ile aynı ağ üzerinde haberleşemiyorlardı.
+image: /images/placeholder.jpg
+category:
+  - siberguvenlik
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "25/01/2022"
+---
+
+Ağ kavramı ilk ortaya çıktığından 70'li yılların sonlarına kadar, bilgisayarlar sadece aynı üreticilerin ürettiği bilgisayarlarla iletişim kurardı.Yani farklı marka bilgisayarlar birbirleri ile aynı ağ üzerinde haberleşemiyorlardı.1970'lerin sonlarında, “Open Systems Interconnection (OSI)” OSI modeli “International Organization for Standardization (ISO)” tarafından yukarıda anlatmış olduğum büyük kullanım zorluklarını aşmak için oluşturuldu.
+## OSI Modeli Nedir?
+OSI için genel bir tanım yapmamız gerekirse, network yapısını anlamamızı sağlayan ve network yapısını parçalayarak incelememize/oluşturmamıza olanak sağlayan standart bir mimari yapı olduğunu söyleyebiliriz.Temelde Verilerin ve ağ bilgilerinin bir bilgisayardaki bir uygulamadan ağ medyası aracılığıyla başka bir bilgisayardaki bir uygulamaya nasıl iletildiğini açıklar.OSI referans modeli bu yaklaşımı katmanlara böler.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/px25yjt9p5r3fsnqtkti.png)
+## OSI Katmanları
+OSI Referans modelinde, iki bilgisayar sistemi arasında yapılacak olan iletişim problemini çözebilmek için 7 katman mevcuttur.Her bir katman kendi içinde bulunan protokoller ve kurallar bütününe göre, iletişimin nasıl yapılacağını ve diğer katmanlar ile olan etkileşimi açıklar.OSI modeli, bir bilgisayarda çalışan uygulama programının, iletişim ortamı üzerinden başka bir bilgisayarda çalışan diğer bir uygulama programı ile olan iletişiminin tüm adımlarını tanımlar.En üst katmanda görüntü ya da yazı şeklinde yola çıkan bilgi, alt katmanlara indikçe makine diline dönüşür ve sonuç olarak 1 ve 0’lardan ibaret elektrik sinyalleri halini alır ve günümüzdeki birçok popüler ağ teknolojisi, OSI'nin katmanlı tasarımını yansıtmaktadır.
+- Fiziksel (Physical) Katmanı
+- Veri Bağlantısı (Datalink) Katmanı
+- Ağ (Network) Katmanı
+- İletim (Transport) Katmanı
+- Oturum (Session) Katmanı
+- Sunum (Presentation) Katmanı
+- Uygulama (Application) Katmanı
+
+Şimdi gelin bu katmanları inceleyelim.
+
+## 1. Fiziksel Katman
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9fc05wti46kugjie0r5t.png)
+- 1 ve 0 sinyallerinin taşındığı katmandır.
+- Bu katmanın görevlerinden biri dijital sinyali taşımaktır.
+- Dijital veri bitlerinin "KAYNAK" cihazın fiziksel katmanından yola çıkarak iletişim ortamı üzerinden "HEDEF" cihazın fiziksel katmanına iletiminden sorumludur.
+- Katman 1'de kullanılan teknolojilere örnek olarak hublar,repeaterlar ve ethernet kablolarını verebiliriz.
+
+## 2. Veri Bağlantısı Katmanı
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ob8kspybvzgfnx2txdvw.png)
+
+- Bir hosttan diğerine hatasız veri transferini gerçekleştirmek için fiziksel katmanın erişim yetkilerini ve kurallarını belirleyen katman veri bağlantısı katmanıdır.
+- Veri iletimi katmanında veri birimi frame’dir (çerçeve).
+- Bu katman network içi iletişimi sağlar.
+- Network içi iletişimi sağlayan switch cihazı bu katmanda görev alır.
+- Switch, network içi iletişimi üzerinde bulunan MAC tablosuna göre frame’leri ilgili yerlere ileterek sağlar.
+- MAC Adresleri 6 Byte (48 Bit)’dan oluşan unique(eşsiz) adreslerdir.
+- Bilgisayarınızda bulunan MAC adresini/adreslerini öğrenmek için;
+- Windowsta; cmd üzerinden getmac komutunu çalıştırabilirsiniz.
+- GNU/Linux dağıtımlarında ise, terminal üzerinden ifconfig komutunu çalıştırabilirsiniz.
+- Bu katmanda iletilen framelerde hata olup olmadığının anlaşılması için bütünlük kontrolü yapılır.
+- Yine Ethernet, HDLC, Wi-Fi, Token ring, FDDI, PPP, L2TP vb gibi kavramlar bu katmanda geçer.
+
+## 3. Ağ Katmanı
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3ykw95qey30c5wqxpfo4.png)
+
+- Bir üst katmanda yani 4. katmanda(Taşıma) segmentlere ayrılan veri, bu katmanda paketlere dönüştürülür.
+- Her noktanın ayrı ayrı olarak tanımlanmasını sağlayan mantıksal adreslemenin yapıldığı katmandır.
+- Bu katman, farklı networkler arasında iletişimi sağlamakla görevli katmandır.
+- Router(yönlendirici) cihazı bu katmanda görev alır.
+- IP, ICMP , ARP(Address Resolution Protocol) gibi protokoller bu katmanda görev alır.
+- IP, IPv4, IPv6, ICMP, ARP, IGMP, IPX vb kavramlar bu katmanda görev alırlar.
+
+## 4. Taşıma Katmanı
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/izyvgbmbub1iqmtqml10.png)
+
+- Uçtan-uca iletimi sağlayan katmandır.
+- Bu katmanda üstte gelen veri ağ paketi boyutunda parçalara ayrılır. Bu parçalara segment denir.
+- Verilerin bozulmadan karşı tarafa gönderilmesinden de sorumludur.
+- Hata denetimi sayesinde iletilirken bozulmuş kısımlar (segment) belirlenebilir.
+- TCP ve UDP protokolleri bu katmanda görev alır.
+
+## 5. Oturum Katmanı 
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2sk8phyte3ox5kzzz0sz.png)
+- Haberleşecek olan bilgisayarlar arasında bağlantının oluşturulması, sürdürülmesi ve sonlandırılması işlemlerinin yapıldığı katmandır.
+- Bu katman ,ağ ortamında birden fazla bilgisayarın birbirleri ile olan iletişimini sağlar.Örnek verecek olursak aynı anda farklı bilgisayarlardan , telefonlardan veya tabletlerden ağa bağlanabiliriz veyahutta aynı cihaz üzerinden farklı programları çalıştırabiliriz.
+- NFS, SQL, ASP ve Telnet bu katmanda tanımlıdır.
+- Oturum katmanında veri birimi data’dır (veri).
+
+## 6. Sunum Katmanı
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9ojjqutyl88cbfco9e9r.png)
+
+- Bu katman,verinin formatının belirlendiği ve paylaşılan verinin anlamlı olmasının sağlandığı katmandır.
+- Paylaşılan verinin her cihaz tarafından okunabilmesi için datanın ortak bir formata dönüştürülmesi gerekmektedir.
+- Farklı programların birbirlerine ait veriyi kullanabilmesini mümkün kılar.
+- Bu katmanın en önemli görevlerinden biri, paylaşılan dataların karşı bilgisayara şifreli olarak iletebilmesidir.
+- Verinin şifrelenmesi, şifreli verinin çözümlenmesi, sıkıştırılması, genişletilmesi bu katmanda gerçekleşir.
+- Genel olarak yorumlayacaksak aslında sunum katmanı ağ ile pek ilgili olmayıp yazılımlarla alakalıdır.
+- Kullanılan formatlardan bazıları GIF,DIVX,FM7,DOC,ASCII
+
+## 7. Uygulama Katmanı
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4lx71a269yfns482slh7.png)
+
+- En üst katmandır, yani kullanıcıya en yakın katmandır.
+- Kullanıcıların ve programların ağı kullanabilmesi için çeşitli araçlar sunar.
+- Uygulama katmanı son katman olduğundan diğer katmanlara herhangi bir hizmet sunmaz.
+- Kullanıcının etkileşimde bulunduğu uygulama programları doğrudan bu katmanla iletişim içindedir.
+- Kullanıcı tarafından çalıştırılan eposta, veritabanı ve web tarayıcı yazılımları bu katmanda yer alır. 
+- HTTP, DNS, SMTP, FTP, TFTP, UUCP, NNTP, SSL, SSH, IRC, SNMP, SIP, RTP, Telnet vb. protokoller bu katmanda görev alırlar.
+
+
+## Yararlanılan Kaynaklar
+
+[https://www.lifewire.com/layers-of-the-osi-model-illustrated-818017](https://www.lifewire.com/layers-of-the-osi-model-illustrated-818017)
+[https://d4v1dh4yt3r.medium.com/network-101-hackerın-gözünden-network-yapısı-ve-modern-web-kısım-1-fb77336446f](https://d4v1dh4yt3r.medium.com/network-101-hackerın-gözünden-network-yapısı-ve-modern-web-kısım-1-fb77336446f)
+[https://www.teknologweb.com/osi-katmanlari-ve-osi-modeli-nedir](https://www.teknologweb.com/osi-katmanlari-ve-osi-modeli-nedir)
