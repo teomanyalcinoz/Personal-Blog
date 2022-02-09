@@ -17,7 +17,7 @@ function Home() {
           </p>
         </div>
       </div>
-      <div className="site-4xl-container mt-20">
+      <div className="site-container mt-20">
         <img src="/secc.jpg" alt="security"></img>
       </div>
     </>
