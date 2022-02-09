@@ -5,8 +5,7 @@ function Home() {
   return (
     <>
       <div className="site-container space-y-5">
-        <h1 className="text-4xl absolute font-bold ml-60 mt-10 text-white">Hakkımda</h1>
-        <p className="box-content h-40 w-70 bg-gray-700 "></p>
+        <h1 className="text-4xl font-bold  mb-5 text-center">Hakkımda</h1>
         <p className="text-2xl">Merhaba, ben Teoman Yalçinöz.</p>
         <p className="text-2xl">Bursa'nın Osmangazi ilçesinde doğdum.Yalova'da yaşıyorum.Yalova Şehit Osman Altınkuyu Anadolu Lisesi mezunuyum
           .Şuan hala devam etmekte olduğum Yalova Üniversitesi Bilgisayar Mühendisliği 3. sınıf öğrencisiyim.</p>
