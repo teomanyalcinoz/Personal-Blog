@@ -1,0 +1,95 @@
+---
+title: tcpdump ile Ağ Analizi
+excerpt: Bu yazımızda ise tcpdump'ı inceleyeceğiz.tcpdump,Linux/UNIX sistemlerde komut satırında çalıştırabileceğimiz açık kaynaklı ücretsiz bir paket yakalama ve analiz aracıdır.
+image: /images/placeholder.jpg
+category:
+  - siberguvenlik
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "26/02/2022"
+---
+Daha önceki yazılarda Wireshark aracının ne olduğunu ve hangi amaçlarla kullanıldığına değinip çeşitli ağ içi analizler yapmıştık.
+
+
+![Image description](https://cdn.educba.com/academy/wp-content/uploads/2021/04/Tcpdump-vs-Wireshark.jpg)
+
+Bu yazımızda ise tcpdump'ı inceleyeceğiz.tcpdump,Linux/UNIX sistemlerde komut satırında çalıştırabileceğimiz açık kaynaklı ücretsiz bir paket yakalama ve analiz aracıdır.Wireshark aracının bize sunduklarına benzer olarak tcpdump bizlere,ait olduğumuz ağ üstünde iletilen veya alınan TCP/IP paketlerini veya diğer paketlerin yakalanıp kaydedilmesi , incelenmesi , filtrelenmesi gibi imkanlar sunar. Ayrıca tcpdump'ın Windows için olanı WinDump olarak adlandırılır.
+
+Her ne kadar çoğu Linux/UNIX dağıtımında yerleşik olarak bulunsa da ` which tcpdump ` komutu ile sisteminizde halihazırda kurulu olup olmadığını kontrol edebilirsiniz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gmmzme9qele2w88kix2l.png)
+
+Kurulu değilse `apt-get install tcpdump` komutu ile paket yöneticisi vasıtasıyla tcpdump'ı kurabilirsiniz.
+
+`tcpdump -h` ile tcpdump aracının parametrelerine ve işlevlerine göz atabilirsiniz.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rugxq9txz7waqmehn25m.png)
+
+Yine genel olarak göz atacak olursak tcpdump parametrelerini aşağıdaki gibi sıralayabiliriz.
+![Image description](https://www.beyaz.net/files/elfinder/content_photo/icerik_dosyalari/tcdump-nedir-uc.png)
+
+tcpdump komutunu yazarak başlıyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/awwcxv2n0439w12l8nk1.png)
+
+yukarıda gördüğünüz gibi komutu girer girmez ağ üzerinde akan paketleri yakalamaya başlayıp terminal ekranında görüntülemeye başladık.Şimdi ise ping göndermeyi deneyerek ICMP paketlerinin analizini yapmaya çalışalım.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a4cs85j569e1r69psx7s.png)
+sağdaki terminal ekranında tcpdump aracıyla yakaladığımız ICMP request ve reply paketleri görünmekte.Bu şekilde ürettiğimiz çıktıyı daha sonra analiz etmek üzere bir dosyaya yazırmak istersek `-w` parametresini eklemeliyiz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kythibygdecbpxtlms32.png)
+
+Yine aynı şekilde daha önceden kaydedilen bir dosyayı tcpdump ile tekrar analiz etmek istediğimizde `-r` parametresiniz eklemeliyiz.
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3n858cc5d8897rc1f04v.png)
+
+### IP Filtrelemesi
+`tcpdump host <YOUR_IP_ADD>` komutu ile parametre olarak verilen IP 'ye göre filtreleyip sadece bu IP'ye ait olan trafiği yakalayabilirsiniz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jxqu7wjhbgpnvfk3dje3.png)
+
+`tcpdump src host <YOUR_IP_ADD>` ile belirtilen IP'den giden
+`tcpdump dst host <YOUR_IP_ADD>` ile belirtilen IP'ye gelen trafiği analiz edebilirsiniz.
+
+
+### Apache2 Uygulaması
+
+Şimdiki uygulamamızda Kali Linux'ta yerleşik olarak bulunan Apache2 web sunucusunu `service apache2 start ` komutu ile başlatıyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qvry5mpaqpu5bktjx59b.png)
+
+Daha sonra tcpdump ile paket yakalama işlemini başlatıyoruz. Ardından Windows makinemizin web tarayıcısına halihazırda çalıştırmakda olduğumuz Sanal Kali Linux'un IP adresini giriyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6cbfypy4kc044k2hzeqv.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nbrx4y8xl0q9xazbn5ed.png)
+Yukarıda görüldüğü gibi tcpdump terminal ekranında paketleri yakalamaya başlıyoruz.Bu paketler üzerinde işaretlenen flag noktaları TCP 3 yönlü el sıkışmayı belirtir.
+
+### Port Filtrelemesi
+tcpdump aracımız ile paket yakalarken spesifik olarak bizim belirttiğimiz porta göre filtreleme yapmasını istersek aracımıza verdiğimiz `tcpdump -vv dst port <PORT_NUM>` komutu ile filtreleme işlemini yapabiliriz.Buna örnek olarak
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ws65racts0zmruw3wd9m.png)
+yukarıdaki terminallerdeki işlemi verebiliriz.Öncelikle `tcpdump -vv dst port 53` komutu ile DNS protokolünü barındıran paketleri yakalamaya başlıyoruz.Ardından nslookup ile sorgumuzu oluşturuyoruz  ve paketleri sonucunda yakalanan paketler tcpdump terminalimizde önümüze düşmeye başlıyor.
+Yine bu noktada IP adresi ve port , port ve port olmak üzere tcpdump parametrelerimizi istediğimiz gibi kombinleyebiliriz.
+
+```
+tcpdump host 192.168.0.39 and port 80
+tcpdump port 80 or port 53
+```
+### TCP Flaglerinin Filtrelenmesi
+Ağ üzerinden akan tüm trafiğin içinden TCP flaglerine göre filtreleme yapabiliriz.`tcpdump 'tcp[tcpflags]==tcp-syn'` komutu ile aşağıda görüldüğü gibi SYN paketlerini filtreleyebiliriz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wrrd7t9ynih7s2yk41uy.png)
+Aynı şekilde ACK,FIN vb flagleri de bu yöntemle filtreleyebiliriz.
+```
+tcpdump 'tcp[tcpflags]==tcp-ack'
+tcpdump 'tcp[tcpflags]==tcp-fin'
+```
+## Sonuç
+tcpdump,ağ trafiğini içinde barındırdığı pek çok yetenekle analiz edebilen güçlü,kolay erişimli ve uygulanabilir bir terminal aracıdır.Mesela uzak sistemdeki bir GUI'ye erişimin olmadığı bir durumda tcpdump oldukça işlevli olabilir.Ağ sorunlarını algılayıp çözmek ve ağı güvenli hale getirmek için kullanılır.
+
+
+## Yararlanılan Kaynaklar
+
+[https://www.hackers-arise.com/post/2019/09/03/Network-Forensics-Part-3-tcpdump-for-Network-Analysis](https://www.hackers-arise.com/post/2019/09/03/Network-Forensics-Part-3-tcpdump-for-Network-Analysis)
+[https://www.tcpdump.org/papers/ethereal-tcpdump.pdf](https://www.tcpdump.org/papers/ethereal-tcpdump.pdf)
