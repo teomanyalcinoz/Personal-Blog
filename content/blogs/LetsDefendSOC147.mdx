@@ -1,0 +1,96 @@
+---
+title: LetsDefend SOC 147 - SSH Scan Activity
+excerpt: Siber güvenlikte kırmızı takım olarak adlandırdığımız ofansif tarafta birçok eğitim kaynağı ve pratik yapılabilecek platform bulunurken, mavi takım olarak adlandırdığımız savunma tarafında mavi takım adaylarının kendilerini geliştirip birşeyler katabileceği kaliteli eğitim materyallerinin olmaması ve pratik yapabilecekleri platformun olmaması sorunlarını buluyor.
+image: /images/placeholder.jpg
+category:
+  - siberguvenlik
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "3/03/2022"
+---
+
+Siber güvenlikte kırmızı takım olarak adlandırdığımız ofansif tarafta birçok eğitim kaynağı ve pratik yapılabilecek platform bulunurken, mavi takım olarak adlandırdığımız savunma tarafında mavi takım adaylarının kendilerini geliştirip birşeyler katabileceği kaliteli eğitim materyallerinin olmaması ve pratik yapabilecekleri platformun olmaması sorunlarını buluyor. LetsDefend adlı platform da bu soruna çare olarak mavi takım adayları için büyük önem arz ediyor. Platform , içinde barındırdığı çeşitli senaryolar ile adayların daha önceki deneyimlerini gerçek bir vaka karşısında kullanabilmeleri için çeşitli vakalar göstererek deneyim kazanmaları amaçlıyor.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/oe7plpw2gx16ioo2qf3t.png)
+
+Bu yazımızda ise LetsDefend platformunda bulunan SOC 147 - SSH Scan  Activity isimli uyarıyı ele alacağız.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gfbhwnx8zhp444fxcjtv.png)
+
+Başlarken ilk aşamada yapmamız gereken şey davayı üstlendiğimizi belirtmek.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kzgev94qgpkwkv2dsjwd.png)
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m3cushleeoff6pdwg5x4.png)
+
+Uyarı detaylarını incelediğimizde bize bir .zip dosyası ve bu .zip dosyasının şifresini verdiğini görüyoruz.Hemen ardından bu zip uzantılı dosyası Kali Linux sanal makinemize indirip incelemeye başlıyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qlmmzsg333yw9w6bywpr.png)
+
+.zip dosyasını açtıktan sonra içinden nmap isimli bir dosyanın çıktığını görüyoruz.Daha sonra file komutunu kullanarak bu dosyanın özellikleri hakkında fikir sahibi olmayı deniyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hudv6c16s2k3ef3fasws.png)
+
+ardından bu dosyanın GNU/Linux 3.2.0 versiyonlu 64 bit Linux üzerinde çalıştırılan binary bir dosya olduğunu öğreniyoruz. Fakat bu dosyamızın zararlı yazılım içerip içermediğini bilmiyoruz. İşte bu yüzden dosyamızın md5 hashini bulmak üzere md5sum komutunu kullanıyoruz. 
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yaa2suuobidafeozeo9w.png)
+
+Bulduğumuz bu md5 değerini Virustotal , Metadefender vb sandbox ortamlarında analiz etmek üzere aratıp bu dosyanın tam olarak ne olduğunu , zararlı olup olmadığı hakkında fikir sahibi olmak istiyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jtta2qy4z1nlpjml6el6.png)
+
+Virustotal'de yaptığımız kontrolün ardından bize döndürdüğü verilere göre dosyamızın md5 değeri 60 farklı platformda yapılan kontrolle birlikte herhangi tehdit oluşturabilecek bir şey içermiyor.Şimdilik bu edindiğimiz bilgiler bize yeterli.Ardından LetsDefend üzerinden Log Management kısmını incelemek üzere bu kısıma geçiyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1forqmkmf2googy891vf.png)
+
+uyarı detayları kısmında bize bilgi olarak verilen IP adresine göre filtreleme yapıp sadece bu IP adresine ait olan logları ele alıyoruz.Yine uyarı detayları kısmında bize verilen bilgiye dayanarak Jun, 13, 2021, 04:23 PM tarihindeki logları filtreliyoruz.Bu filtrelemeyle birlikte 172.16.20.0/24 ağında bulunan makinelerin 22 yani SSH portlarına yönelik kayıtlar önümüze sıralanıyor.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/aekptaltuntyjfjav6we.png)
+
+Bu edindiğimiz bilgilerin ardından Endpoint Security bölümüne geliyoruz ve 172.16.20.5 IP adresi ile arama yapıyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/828nyn9aycix3r7aaevw.png)
+
+ve yukarada da gördüğünüz gibi bize parametre olarak verdiğimiz IP adresine yönelik genel ve detay bilgiler veriyor.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gotvazpbjqfdncxnplt6.png)
+
+komut satırı geçmişine bakarak çalıştırılan nmap komutunu inceleyebiliyoruz.Bu veriye göre 172.16.20./24 ağında bulunan bilgisayarlara nmap ile versiyon taraması yapıldığını öğreniyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rmu1aez5exdy5ge452y7.png)
+
+proses geçmişi kısmına bakarak yine netcat , python ve nmap proseslerinin ve dahasının çalıştırıldığı bilgisine ulaşabiliyoruz.
+Edindiğimiz bu bilgilerin ışığında artık davayı sonuçlandırma kısmına geçiyoruz ve playbook ile devam ediyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bzkbo5w2k2f7li7rqvgt.png)
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/evcai40bl1yjm46mol3l.png)
+
+tehdit ayrıştırıcımız verilen opsiyonlara uymadığından diğerleri seçeğini belirleyip geçiyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/613fq48d9g3g5dpi2fp1.png)
+
+şimdiki durumda ise herhangi bir karantinaya alma ve temizleme durumu olmadığından not quarantined seçeneğini seçip ilerliyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bjot4kay1jni91hxuu3n.png)
+
+son durumda ise yaptığımız analizlerin ardından zararlı olarak nitelendirilebilecek herhangi bir durumla karşılaşmadığımız için non-malicious seçeğenini seçip playbooku tamamlıyoruz.Playbooku tamamladıktan sonra ise uyarıyı kapatmak üzere Monitoring bölümüne geçiyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4epv8bedr56qyd71jmfi.png)
+
+Uyarıyı false positive olarak bildirip , kapatmak üzere raporumuzu yazıyoruz.
