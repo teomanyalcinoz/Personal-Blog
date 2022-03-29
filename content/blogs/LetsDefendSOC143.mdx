@@ -1,0 +1,116 @@
+---
+title: LetsDefend SOC143 - Password Stealer Detected
+excerpt: Merhabalar , bu yazımızda LetsDefend platformu üzerinde bulunan SOC143 - Password Stealer Detected isimli event ID'si 90 olan davayı ele alacağız. LetsDefend platformundan ve mavi takım operasyonları bakımından yararlarından daha önceki yazıda bahsetmiştik. Başlamadan hemen önce bu uyarının gerçek bir siber saldırıda kullanıldığını belirtmek istiyorum.Davayı üstlenerek başlayalım
+image: /images/placeholder.jpg
+category:
+  - siberguvenlik
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "9/03/2022"
+---
+
+
+Merhabalar , bu yazımızda LetsDefend platformu üzerinde bulunan SOC143 - Password Stealer Detected isimli event ID'si 90 olan davayı ele alacağız. LetsDefend platformundan ve mavi takım operasyonları bakımından yararlarından daha önceki yazıda bahsetmiştik. Başlamadan hemen önce bu uyarının gerçek bir siber saldırıda kullanıldığını belirtmek istiyorum.Davayı üstlenerek başlayalım.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7uj9di03s73dtl97abz4.png)
+
+Genel itibariyle bakacak olursak. Olay April 26, 2021, 11:03 p.m. tarihinde gerçekleşmiş. `180.76.101.229` nolu IP adresinden bill@microsoft.com kullanıcısından ellie@letsdefend.io isimli kullanıcıya gönderilen bir mail içeriyor. Cihaz eylemi kabul edilirken, mailin içeriği ve konusu belirtilmemiş bizden araştırmamız beklenmiş. Öncelikle bilgi olarak bize sunulan IP adresini farklı platformlarda aratıp bilgi edinmeye çalışıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uncn0n0wih0gomjyir7g.png)
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vuzh87seqymex51k8zd4.png)
+
+Cisco Talos, AbuseIPDB vb. çeşitli platformalarda arattık. Edindiğimiz bilgilere göre IP Çin çıkışlı, Beijing merkezli bir providera ait. Şimdi ise LetsDefend platformunda bulunan mailbox bölümüne geçiş yapıyoruz ve mail hareketliliğini araştırmaya başlıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/319gqj55madcna3eqxtz.png)
+
+Mailbox -> Inbox sekmesinde source olan bill@microsoft.com u veyahutta tarihi filtreleyip maili kontrol ediyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4mo6x8w4h6x31rvc6tzs.png)
+
+Mail içeriğini inceleyecek olursak herhangi bir metin veya başlık belirtilmeden yalnızca bir .zip dosyayıyla karşılaşıyoruz.Karşılaştığımız bu .zip dosyasını Hybrid Analysis, VirusTotal gibi platformlarda araştırıp "Zararlı herhangi bir şey içeriyor mu ?","Daha önceki kayıtlarda zararlı bir durumla karşılaşılmış mı?" gibi sorulara yanıt arıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/50v4xvxtxu435izm7rf0.png)
+
+VirusTotal platformunda arattığımızda 91 farklı aramanın sadece 1 tanesinde şüpheli olduğuna kanaat getirildiğini görüyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pyx68005qa33hlgdl9u8.png)
+
+Hybrid Analysis'de arattığımızda ise malicious olarak bildirilen durumlarla karşılaşıyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q3gczh7kc7u34403j5ut.png)
+
+Bu durumları detaylı incelediğimiz vakit içinde barındırdığı dosyanın malware olarak bildirildiğini görüyoruz.Tüm bu riskleri göz önünde bulundurarak .zip dosyasını sanal makinemiz olan Kali Linux'a indirip inceliyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/svimw1nilftxltftxfz3.png)
+
+İndirip bize verilen infected parolasıyla birlikte dosyayı dışarı çıkarıyoruz ardından .zip dosyasından çıkan HTML dosyasını kontrol etmek üzere VirusTotal ve Hybrid Analysis'e başvuruyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/saoqd7rhgkffn38hubni.png)
+
+Dosyayı kontrol edebilmek için md5sum yardımı ile dosyamısın MD5 ını buluyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/85ryrhovyhabjqcd62fl.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/b21cbicsrdp96965uybh.png)
+
+Yukarıda görüldüğü üzere HTML dosyamız farklı platformlarda ağırlıklı olarak malicious olarak bildirilmiş.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rsu4vhw7628omvb0o0qa.png)
+
+Hybrid Analysis'de detaylı olarak incelediğimizde alınan ekran görüntülerinde bir login paneli olduğunu görüyoruz ve phishingden şüpheleniyoruz. Bu şüphelerimizi doğrulamak için bize güvenli ortam sağlayan any.run platformu üzerinde HTML dosyasını açıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cvg3rjux3kr7qhh212dv.png) 
+
+Dosyayı açtıktan sonra gerçekten de görüldüğü üzere bizi bir login ekranı karşıladı. 
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hm3lfhhesc4iy62tyfzt.png)
+
+Login ekranında rastgele bir parola giriyoruz ve bizi tecyardit.com URL'sine yönlendirdiğini görüyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/azj3w1ngzj22yzm10l3l.png)
+
+URL'yi VirusTotal'de aratmamızın ardından pek çok kez malicious ve phishin olduğuna kanaat getirildiğini görüyoruz. Login ekranından aldığı parola bilgisini ilettiği uç noktada saklayıp kişisel bilgileri çalan bir çeşit phishing saldırısı olduğunu anlıyoruz. Hatta bu seferki kurban direkt kendi adına uygulanan bir spear phishing saldırısı ile karşı karşıya. Herşeyin ardından edindiğimiz bu bilgilerin ışığında davayı sonlandırmak üzere playbooku açıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/amkvhba473d9gnq0ojow.png)
+
+İlk soruya dosya bir URL içerdiği için evet yanıtını veriyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1d6g7p4imb92gkw0n0kz.png)
+
+İkinci soruda VirusTotal,Hybrid Analysis vb sitelerde aratıp malicious durumlarla karşılaştığımız için malicious yanıtını veriyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6mjyaiucf9bs3457xg4n.png)
+
+Mail teslim edildiği için delivered işaretliyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2zkqhr63oelxi0ma56yq.png)
+
+Elde ettiğimiz verileri girmemiz için bize verilen bölümü dolduruyoruz ve playbooku tamamlıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zn73nrj8cpiy7ya7qzid.png)
+
+Yorumumuzu yapıp davayı başarılı bir şekilde kapatıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/57tvexu601a2ncn9hnxu.png)

@@ -1,0 +1,71 @@
+---
+title: Cyber Threat Hunting
+excerpt: Bu yazımızda Cyber Threat Hunting (Siber Tehdit Avcılığı) den bahsedicez. Tehdit Avcılığı; kötü niyetli faaliyetlerin ve siber tehditlerin hipoteze dayalı olarak keşfedilip raporlanmasını ele alan süreçtir. Saldırıyı olabildiğince erken tespit etmeyi ve minimum kayıp yaşanmasını amaçlar. 
+image: /images/placeholder.jpg
+category:
+  - siberguvenlik
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "8/03/2022"
+---
+
+Bu yazımızda Cyber Threat Hunting (Siber Tehdit Avcılığı) den bahsedicez. Tehdit Avcılığı; kötü niyetli faaliyetlerin ve siber tehditlerin hipoteze dayalı olarak keşfedilip raporlanmasını ele alan süreçtir. Saldırıyı olabildiğince erken tespit etmeyi ve minimum kayıp yaşanmasını amaçlar. 
+Yani tehdit avcılığını :
+
+- Şirket veya kurumun ağındaki ve sistemlerindeki tehditleri proaktif olarak belirlemek.
+- Çevreyi halihazırda tehlikeye atan etkisi altına almış tehditleri bulmak.
+- Mevcut tehdit algılama ve önleme çözümlerinden kaçan gelişmiş tehditleri algılamak gibi özetleyebiliriz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qym7v8ssoctob3tuwjh3.jpeg)
+
+Tehdit avı sırasında öncelikle bir gidiş yolu bir hipotez oluşturulur ve sonrasında bu hipotez araştırılır. Bir tehdit avı sırasında yeni TTP ve IOC'leri ortaya çıkarabilirsiniz. TTP, herhangi bir tehdit aktörünün davranışı olarak tanımlanabilir. Teknik, taktik ve prosedürden oluşur. TTP'de amaç, tehdit aktörleri tarafından kullanılan gidiş yolu, belirli stratejiler ve tehdit vektörlerine karşı koyabilmek için saldırının davranışının kalıplarını çıkarmaktır. Bir IOC(Indicator of Compromise) ise bir bilgisayarda veya herhangi bir cihazda güvenlik ihlaline işaret eden terimdir. IOC verileri, herhangi şüpheli bir güvenlik olayı veya ağdaki beklenmeyen bir faaliyet olabilir. Misalen; yönetici hesaplarda şüpheli etkinlik, veritabanı okumasındaki artış miktarı, beklenmedik sistem yamaları, DDoS etkinliği olabilir.
+Edindiğimiz bu yeni TTP ve IOC'lerden yeni algılama kuralları oluşturabilir veya direkt olarak Olay Müdahale ekiplerince müdahahele edilebilir. Mesela uç noktada tehdit avcılığı ekibi tarafından tespit edilen bir malwarea ait TTP ve IOC'leri ortaya çıkarmak için Malware analiz ekibine iletmesi. 
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nuibvlysq6ndwo1fnqq2.jpg)
+
+Kurum ve kuruluşların pek çoğu siber tehdit avcılığı süreci kısmında hataya düşüyor.Birçoğu resmi olarak tehdit avı sürecine sahip değil ve çok az bir kısmı ise tehdit avcılığı için yetişmiş ve atanmış çalışanlar ile resmi ilerleme metodolojisine sahip.Kurumlarda çalışan tehdit avcılarının çoğu adli bilişim, olay müdahelesi, SOC uygulamaları gibi farklı görevleri de yerine getiren personellerden oluşuyor.İşte tam da bu noktada tehdit avcılığı sürecinin verimsizliği ve yetersizliği baş gösteriyor. Kurumlar, yeterli insan kaynağına sahip olmadığından,zaman yönetimi başarısızlığıyla birlikte geçici çözümler üretilip tehdit avcılığı operasyonu gerçekleştiriliyor. Bu sorunlardan sıyrılmak için yeterli insan kaynağı bulunan bir ekiple, belirli bir sistem ve metodolojiye bağlı kalarak bir siber tehdit avcılığı yaklaşımı belirlenmelidir. 
+
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ilg92otl7qsfke6zkypu.png)
+
+## Tehdit Avcılığı Yaşam Döngüsü
+Zaman zaman farklılık gösterse de tehdit avcılığında dört ana adım vardır. Birincisi hipotez oluşturmaktır. Tehdit avcısı bu hipotezi analiz edip bir saldırı senaryosu oluşturmalıdır. İkincisi araştırma yapmaktır. Ekibin bu aşamada yapması gereken belirlenen hipotezi araştırıp detaylandırmaktır. Daha sonrasında ise hipotezi kanıtlayacaktır ya da çürütecektir. Üçüncü aşama ise ortaya çıkarma aşamasıdır. Tehdit avı döngüsünün bu aşamasında tehdit aktörünün saldırılarını gerçekleştirmek için kullandığı TTP'leri bulunur. Son aşama ise bilgilendirme ve zenginleştirmedir. Şimdi tehdit avcılığı döngüsünün her bir adımını tek tek ele alalım.
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ie54kik9pacrpiyyhjt4.jpg)
+
+### 1. HİPOTEZ OLUŞTURMA : 
+Hipotezler , belirli bir tehdit aktörünün veya tekniğin tespit edilmesi , çalışılan kurumun altyapısının sahip olduğu tehdit açıklarının kapatılması gibi avın odağını tanımlayan sorulardır.Bu adımda avcı ekip "tehdit aktörünün amacı nedir?","tehdit aktörü kurumun ağına nasıl sızar", "sızarken nelerden faydalanabilir"gibi sorular sorarlar.Belirlenen hipotez test edilebilir, üzerinde oynanabilir olmalıdır.Hipotez oluşururken farklı yaklaşımlar kullanılır.Bunlardan biri tehdit istihbaratı yardımıyla oluşturulan hipotezler ; bu tür hipotezler , siber tehdit istihbaratı ekiplerince oluşturalan sorular , elde edilen veriler ışığında oluşturulur.Başka bir yaklaşım türü ise durumsal farkındalık odaklı hipotez oluşturmadır.Bu yaklaşımda , ekip çevrelerinin durumsal bakımdan farkında olmalı ve çevrelerinde meydana gelen bir değişim durumunda bu değişim hakkında hipotez geliştirmelidir.Bunu yaparken çevre materyallerinden en fazla kritik öneme sahip olanlara odaklanabilirler.Başka bir yaklaşım türü olarak alan uzmanlığına dayalı hipotez oluşturmayı örnek verebiliriz.Durumsal farkındalık yaklaşımına benzerdir ve avcının alan uzmanlığı ile ilgilidir.Tecrübeye ve farkındalığa dayalıdır.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o0xpd65fwcmlkc7ig9fw.jpg)
+
+### 2. ARAŞTIRMA : 
+Bu aşamada elimizde oluşturulmuş hipotezin olduğunu ve nasıl test edebileceğimizi biliyoruz. Amaç, çeşitli araç ve teknikleri kullanarak hipotezi derinlemesine araştırıp analiz etmek ve sonrasında hipotezi çürütmek veya kanıtlamaktır.Yani tehditin avlandığı adım olarak adlandırabiliriz. Tabii ki avcı ekip, avlanma süreci başlamadan evvel yeterli veri kaynağına sahip olmalı, gerekli veri görünürlüğüne sahip olmalı. Bu veriler çeşitli araçlar ve yardımcı kaynaklar tarafından sağlanabilir.MITRE ATT&CK, tehditi avlamak için gereken üst düzey veri kaynaklarının adlarını sağlayabilir. Bütün bunların ardından ilerleme yolumuz belli , gerekli loglara ve veri kaynaklarına sahibiz. Yani avlanma süreci için hazır duruma geliriz.
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a7hevrvw4kzz5iv8wvz6.png)
+### 3. ORTAYA ÇIKARMA : 
+Üçüncü aşama olan ortaya çıkarma aşamasında amacımız ise yeni TTP(taktik,teknik,prosedür)'leri ortaya çıkarıp yeni tehdit kalıplarını oluşturmak.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tpzh7p5i5qn1t1mjd56l.jpg)
+### 4. BİLGİLENDİRME VE ZENGİNLEŞTİRME : 
+Tehdit avcılığı döngüsünün son aşaması olan analitiğin bilgilendirilmesi ve zenginleştirilmesi aşaması, yeni bir ava başlamadan önce mevcut sonlanan av sürecini proaktif bir şekilde operasyonel hale getirmeyi amaçlar.Aynı tehdit üzerinde takılı kalıp defalarca kez aynı tehditi araştırıp avlamayı istemeyiz.İşte tam bu noktada bilgilendirme ve zenginleştirme aşaması mümkünse otomatik algılama kurallarına dönüştürüp gelecekte aynı tehditi tekrar aramayı engeller.Böylece aynı tehdit üzerinde zaman kaybı yaşamadan farklı hipotezleri test etmeye bolca zaman bulabilirsiniz.
+
+## Sonuç
+Sonuç olarak, siber tehdit avcılığı kuruluşlar için basite alınması ve gözardı edilmesi gereken bir süreç değil, tam aksine bir zorunluluktur ve plan program dahilinde kapsamlı bir şekilde yeterli insan kaynağıyla yürütülmesi gerekir.
+
+## Yararlanılan Kaynaklar
+
+1. [https://www.checkpoint.com/cyber-hub/cloud-security/what-is-threat-hunting/](https://www.checkpoint.com/cyber-hub/cloud-security/what-is-threat-hunting/)
+2. [https://www.ibm.com/topics/threat-hunting](https://www.ibm.com/topics/threat-hunting)
+3. [https://www.bgasecurity.com/2018/02/siber-tehdit-avciligi-nedir-cyber-threat-hunting/](https://www.bgasecurity.com/2018/02/siber-tehdit-avciligi-nedir-cyber-threat-hunting/)
+
