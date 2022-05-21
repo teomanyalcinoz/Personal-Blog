@@ -1,0 +1,125 @@
+---
+title: LetsDefend SOC141 - Phishing URL Detected
+excerpt: Merhabalar, bu yazımızda LetsDefend platformu üzerinde bulunan 86 numaralı event ID'ye sahip SOC141 - Phishing URL Detected uyarısını çözmeye odaklanacağız.
+image: /images/placeholder.jpg
+category:
+  - letsdefend
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "30/03/2022"
+---
+
+Merhabalar, bu yazımızda LetsDefend platformu üzerinde bulunan 86 numaralı event ID'ye sahip SOC141 - Phishing URL Detected uyarısını çözmeye odaklanacağız.
+
+## Uyarı Detayları
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/92fhviabk0jeijhy51mp.png)
+
+Yukarıdaki ekran görüntüsünde platform tarafından bize verilen uyarı detayları gözükmekte. Bu detayları inceleyip araştırarak bu uyarının bir phishing olup olmadığını araştıracağız. Hemen uyarıyı üstlenerek başlıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vsh66fye2ai0gaqvumk6.png)
+
+Uyarıyı üstümüze aldıktan sonra playbooku başlatıp kolları sıvıyoruz.
+
+## Veri Toplama
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iimcfyirt0zvbvmlzsqn.png)
+
+Yukarıdaki isterler uyarı detayında bize verilmişti bunlar:
+
+```
+Source Address — 172.16.17.49
+Destination Address — 91.189.114.8
+User-Agent — Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36
+
+```
+
+## Log Araştırması
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/twr6b4wixcj8y4yvbao1.png)
+
+Log araştırması için platform üzerinde bulunan Log Management bölümüne gidip source ve destination IP'leri topladığımız veriler ile filtreliyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hl418gwgxcppdfmo166b.png)
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5q41voxvzd1lmcq0llly.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hksaw0wise9fhs0mw077.png)
+
+Yukarıdaki ekran görüntülerinde de gözüktüğü üzere proxy tipinde olan log kayıdında bir URL'e ait yapılmış bir istek gözükmekte. 
+Bu URL : 
+
+```
+http[:]//mogagrocol[.]ru/wp-content/plugins/akismet/fv/index.php?email=ellie@letsdefend.io
+
+```
+
+Not : URL malicious olabileceği için öldürülmüştür, herhangi bir yönlendirme yapmaz.
+
+
+## URL Analizi
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7p929c6wph6agpifuwc6.png)
+
+Bu aşamada ise bizden çeşitli platformlar üzerinde URL'nin malicious olup olmadığını kontrol etmemiz isteniyor.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/46jlqvjg7n1c0aew3tmb.png) 
+
+AnyRun platformu üzerinde bulduğumuz URL için istek oluşturuyorum ve yukarıdaki ekran görüntüsünde domainin wordpress üzerinde barındırıldığını ve ölü halde gözüküyor olduğunu görüyorum. Daha fazla bilgi edinmek için farklı platformlarda araştırmaya devam ediyorum. 
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dfvjspqekwbvk6fnnv4h.png)
+
+Bu kez VirusTotal üzerinde URL'yi tarattığımda 92 farklı araştırmanın 5'inde malicious olarak tespit edildiğini görüyorum.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nny3two2186ijh0dhk7y.png)
+
+Son olarak URLScan üzerinde de araştırdığımda malicious olarak tespit ediliyor.
+
+## IP/URL/Etki Alanına Erişen Var mı?
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lsrgn3dbp7n3bntkdo3n.png)
+
+Yukarıdaki sorular hakkında fikir sahibi olabilmek için Hybrid-Analysis aracı üzerinde araştırma yapıp contacted hosts bölümüne bakıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jt6itguju2c506bhhoat.png)
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/35bidvr6uvml4n7ixwpc.png)
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zqqdkldcptrwnxfz8fs9.png)
+
+Yukarıdaki ekran görüntülerinde bulunan IP adreslerinden URL ile iletişime geçildiğini görüyoruz ve URL'e erişim var mı sorusuna evet yanıtını verip devam ediyoruz.
+
+## EDR Sınırlaması
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7tf2369eu6uq7t8vto5k.png)
+
+Bizden platform üzerinde bulunan Endpoint Management bölümüne gidip hostun makinesini de sınırlamaya dahil etmemiz istenmiş. Bu isteği yerine getiriyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wb946bdrpg5ju60oc5wn.png)
+
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kanwhzvtqbzbyimptehu.png)
+
+Analiz notumuzu ekliyoruz ve uyarıyı kapatıyoruz.
+
+
+![Image description](https://dev-to-http://mogagrocol.ru/wp-content/plugins/akismet/fv/index.php?email=ellie@letsdefend.io
+uploads.s3.amazonaws.com/uploads/articles/mc8mlvh27ytnxb5x73mm.png)
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/w07y7semimhr9kkgyhx4.png)
+
+Bu uyarıyı da analiz ettik bir sonrakilerde görüşmek üzere.
+

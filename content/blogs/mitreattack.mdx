@@ -1,0 +1,112 @@
+---
+title: MITRE ATT&CK
+excerpt: Gerçek hayatta karşılaştığımız her suçta olduğu gibi , siber suçlarda da saldırganlar gerilerinde iz bırakır ve her iz bir uzlaşma göstergesi (IOC) olarak adlandırılır.
+image: /images/placeholder.jpg
+category:
+  - siberguvenlik
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "1/04/2022"
+
+
+---
+
+Gerçek hayatta karşılaştığımız her suçta olduğu gibi , siber suçlarda da saldırganlar gerilerinde iz bırakır ve her iz bir uzlaşma göstergesi (IOC) olarak adlandırılır.IOC , bir siber saldırının gerçekleştiğinin kanıtıdır.Genellikle gerçekleşen saldırı hakkında değerli bilgiler verir. Siber güvenlik mavi takım ekiplerini yani savunucuları gelecekteki olası saldırılara karşı hazırlar ve benzer atak vektörlerine yönelik tespit,önleme,yanıt verme aşamalarında büyük destekçi olur. Fakat her IOC aynı derecede önem arz etmez çeşitli türleri vardır.IOC'lere örnek olarak verecek olursak:
+
+- Olağandışı gerçekleşen ağ trafiği
+- Sistemdeki bilinmeyen dosyalar, uygulamalar ve işlemler
+- Yönetici veya ayrıcalıklı hesaplarda şüpheli etkinlik
+- Veritabanı okuma hacmindeki artışlar
+- Aynı dosya için çok sayıda talep
+- Olağandışı DNS istekleri
+- İnsan kaynaklı olmayan web trafiği
+- DDoS etkinlikleri
+- Bir kuruluşun iş yapmadığı ülkelerdeki trafik gibi düzensiz etkinlikler IOC2'lere örnek olarak gösterilebilir. 
+
+İşte tam da bu nedenden dolayı farklılıklar arası sınıflandırma sistemine ihtiyaç duyulmuştur.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/f3h7mmc1tf5lozht4non.png)
+Bilinen IOC sınıflandırma metodlarından The Pyramid of Pain,2013 yılında David Bianco tarafından tanıtıldı.Bianco, piramidin her seviyesinin hem saldırganın hem de güvenlik personelinin hissettiği acıyla orantılı olması nedeniyle piramidi Acı Piramidi olarak adlandırdı. Piramidin üst seviyelerine doğru çıkıldıkça , güvenlik personellerinin IOC'leri toplaması ve uygulaması giderek daha zor daha acı çekici hale geliyor aynı şekilde saldırganların da var olanları yenileriyle değiştirmesi zorlaşıyor. Buna örnek olarak , bir güvenlik personelinin zararlı bir dosyanın hash değerini güvenlik kontrollerine eklemesi veya bu dosyanın geldiği IP'yi tespit edip eklemesi , TTP'leri (Taktik,Teknik,Prosedür) güvenlik kontrollerine tanımlamasından daha kolay ve basittir. Aynı şekilde saldırganın , zararlı içeren bir dosyanın hash değerini değiştirmesi oldukça basit ancak TTP'lerini değiştirmesi oldukça zor ve maliyetlidir.
+
+## MITRE ATT&CK NEDİR ?
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kjobpwwukujfbz2b3qy3.png)
+MITRE ATT&CK çerçevesi TTP'leri sistematik olarak tanımlar ve organize eder.Siber saldırganların kullandıkları atak vektörlerinin gerçek dünyadaki gözlemlerine dayanan,dünya çapında erişilebilir ve kullanılabilir bilgi tabanıdır. Siber güvenlik ekiplerince yaygın kullanışını TTP'leri tanımlamak olarak söyleyebiliriz.
+
+
+## ENTERPRISE İÇİN MITRE ATT&CK MATRİSİ NEDİR ?
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xtrzh01ozgvg2xy2vlhx.png)
+[ATT&CK MATRIX](https://attack.mitre.org/matrices/enterprise/)
+Yukarıdaki resimde ve linkte görülen Enterprise için MITRE ATT&CK Matrisidir.Bu matris özelinde konuşacak olursak her sütun bir "TAKTİĞİ" temsil eder. Bu taktiklere ulaşmak için siber saldırganlar "TEKNİKLER" adı verilen farklı yöntemler kullanırlar. Örnek vermek gerekirse, ilk sütundaki "DÜŞMAN KİMLİĞİ İLE İLGİLİ BİLGİ TOPLAMA" taktiğini uygulamak için "Phishing saldırısı" tekniğini kullanabilir.Enterprise için ATT&CK matrisinin en iyi yönlerinden biri de sürekli güncelleniyor olmasıdır asla statik kalmamaktadır. Yeni keşfedilen taktik ve tekniklerle birlikte güncellenir. Şuanda da 14 taktik, 185 teknik ve 367 alt teknik içermektedir. MITRE ATT&CK ayrıca bir saldırı faaliyeti ile ilgili siber tehdit gruplarını içermesinin yanı sıra bu siber tehdit grupları tarafından kullanılan yazılımları da sağlar. Şu anda ATT&CK, 122 grup ve 585 yazılım içermektedir.MITRE ATT&CK, siber güvenlik ekiplerine yardımcı olmak için meta veriler, prosedürler, algılamalar ve azaltmalar gibi çok değerli bilgiler sağlar.
+
+
+## MITRE ATT&CK'ı OPERASYONEL HALE GETİRME ? 
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yaxp9dwgi3g3b97td20n.png)
+Siber tehdit istihbaratı kaynağı olarak ATT&CK Framework kullanılabilir.Siber tehdit istihbaratının ne olduğunu daha önceki yazılarımda açıklamıştım. Temel manada saldırganlara yönelik bilgilerin toplanmasını içeren tehdit istihbaratı bunun için MITRE ATT&CK Framework'ünden yararlanabilir. ATT&CK, siber saldırganların amaçlarını bu saldırıyı uygularkenki motivasyonlarını , hedefledikleri ülkeler ve sektörleri , kullandıkları teknik, taktik ve araçları ortaya çıkararak saldırganların davranışını kavramada büyük rol oynar. Kurum veya kuruluşların sahip olduğu siber güvenlik ekiplerinin olgunluk düzeyi ne olursa olsun , ATT&CK matrisi herhangi bir kuruluşa yardımcı olabilir. Örnek olarak sadece birkaç analist barındıran bir kuruluş istihbarat , kendi kuruluşunun bulunduğu sektörü ve ülkesini hedefleyen bir tehdit grubu ile başlar. Ardından tehdit grubunun kullandığı teknikleri ATT&CK'da yapılandırıldığı gibi inceler. Mesela kuruluşumuzun Türkiye merkezli olduğunu varsayalım. MITRE ATT&CK ana sayfasına gidip "turkey" anahtar kelimesi ile arattığımızda . Ülkemizi hedef alan birkaç siber tehdit grubu buluyorum.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h47kz844pc8d0hkdt2jc.png)
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2ye2mkqq7kjdt9kxwx3x.png)
+
+CopyKittens tehdit grubu, en az 2013'ten beri faaliyet gösteren İranlı bir siber casus grubu imiş. Dolayısıyla, bu grup organizasyonumuzla çok alakalı. İlk başta, web sitesinde gruplar sayfasını göstermek istiyorum.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jdguktaal00v06dec53x.png)
+Şu anda ATT&CK Çerçevesinde 122 grup bulunmaktadır.MITRE ATT&CK websitesi üzerinde CopyKittens grubu ile ilgili bilgilere göz atalım. 
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m0qdc35hm7sdasg6yy07.png)
+
+Ekranda görüldüğü gibi ATT&CK, grubun, hedeflenen coğrafyaların ve hedeflenen sektörlerin atıflarını sağlar. CopyKittens grubunun İran'a atfedildiğini, hedeflenen bölgelerin İsrail, Suudi Arabistan, Türkiye, Almanya olduğunu ve Solmuş Lale Operasyonu olarak bilinen kampanyadan sorumlu olduğunu öğreniyoruz. Grubun sayfasından , kullandıkları tekniklere ve yazılımlara bakarak onlar hakkında daha fazla şey keşfedebiliriz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gh0r77cuvvyec6ge7ly6.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/biddxf93y9z7eak6t2rw.png)
+MITRE ATT&CK , grup tarafından kullanılan teknikleri ufak özetlerle açıklar. Ayrıca ATT&CK , grubun kullandığı teknikleri ATT&CK Navigator kısmında görselleştirir. Mavi teknikler, tehdit grubunun kullandığı teknikleri gösterir.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cexfhkqzmy8bgzo38jpi.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7voga7ktpi4nc25fe5p.png)
+
+
+MITRE ATT&CK platformunda kullanılan her tekniğin T1003 gibi 4 basamaklı benzersiz bir kimliği vardır.
+
+Tehdit gruplarında olduğu gibi tehdit gruplarının kullandığı yazılımlarda da benzer analizler yapılabilir. Yine software sayfasına tıklayarak genel bakış yapıyorum.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tn76v6kfzihl80tiah72.png)
+
+Ardından örnek olması açısından BabyShark yazılımına tıklayıp hakkında detaylı bilgi almak istiyorum.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nkcoryj85k3oo2bcvl8b.png)
+
+Genel özete baktığımızda BabyShark'ın, birkaç Kuzey Kore kampanyasıyla ilişkili olduğuna inanılan bir Microsoft Visual Basic (VB) komut dosyası tabanlı kötü amaçlı yazılım ailesi olduğunu öğreniyoruz. Hemen yanda az önce bahsettiğimiz eşşiz ID'sinin S0414 olduğunu ve tipinin malware olduğunu görüyoruz. Hemen aşağıda BabyShark yazılımının beraberinde kullanıldığı teknikleri görebiliyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2px7ftkini9m5yqyoe8u.png)
+
+Mesela komut ve komut dosyası yorumlayıcısı ve dosya, dizin bulma teknikleri ile kullanılmış. Daha detaylı bakmak istediğimizde tıpkı tehdit gruplarında olduğu gibi ATT&CK Navigator'ü kullanıyoruz.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yabnprjlctea2y8yimou.png)
+
+## Sonuç
+Genel olarak, MITRE ATT&CK'nin siber güvenlik personelleri için çok iyi bir rehberlik sağladığını ve onları doğru yola soktuğunu söylemek doğru olur.ATT&CK Framework taktikler, teknikler, prosedürler, azaltma, tespit, tehdit grupları ve saldırı araçları hakkında bilgi sağlar.Ancak MITRE ATT&CK'ın operasyonel hale getirilmesi açısından, belirli zorluklar ve atılması gereken bazı ek adımlar vardır. En basitinden örnek verecek olursak, yetenekli personel ve güçlü insan kaynağına sahip sınıflandırılmış takımlar ve bu takımlar arasında güçlü işbirliği gerektirir. (CTI,SOC,Red Team,SecOps gibi)
+
+
+## Yararlanılan Kaynaklar 
+
+[https://www.siberguvenlik.web.tr/index.php/2021/02/12/indicator-of-compromiseioc-nedir/](https://www.siberguvenlik.web.tr/index.php/2021/02/12/indicator-of-compromiseioc-nedir/)
+
+[https://www.logsign.com/blog/what-is-mitre-attack-framework/](https://www.logsign.com/blog/what-is-mitre-attack-framework/)
+
+[https://medium.com/mii-cybersec/introduction-mitre-att-ck-framework-part-1-english-28f32bd8fc90](https://medium.com/mii-cybersec/introduction-mitre-att-ck-framework-part-1-english-28f32bd8fc90)
+
+[https://attack.mitre.org/](https://attack.mitre.org/)
+
+[https://medium.com/mitre-attack](https://medium.com/mitre-attack)

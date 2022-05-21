@@ -1,0 +1,102 @@
+---
+title: LetsDefend SOC104 - Malware Detected
+excerpt: Merhabalar, bu yazımızda LetsDefend platformu üzerinde bulunan 84 numaralı event ID'ye sahip SOC104 - Malware Detected uyarısını çözmeye odaklanacağız.
+image: /images/placeholder.jpg
+category:
+  - letsdefend
+author:
+  - Teoman Yalçınöz
+featured: false
+date: "21/05/2022"
+---
+
+Merhabalar, bu yazımızda LetsDefend platformu üzerinde bulunan 84 numaralı event ID'ye sahip SOC104 - Malware Detected uyarısını çözmeye odaklanacağız.
+
+## Genel Bakış
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hhsaqjbhrmhjjo4wxtsx.png)
+ 
+Uyarıyı üstlenip case oluşturmadan hemen önce genel bir bakış atacak olursak: 
+Source Address -> 172.16.17.5
+Source Hostname -> SusieHost
+Event Time -> March 21, 2021, 1:04 p.m.
+File Name -> winrar600.exe
+File Hash -> c74862e16bcc2b0e02cadb7ab14e3cd6
+
+bize verilen önemli bilgiler yukarıdakilerdir.
+
+## Analiz
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9z4xtlzblarco3g4ck7s.png)
+
+
+verilen IP adresini ve hostnamei Endpoint Management bölümünde araştırıyoruz ve makine karşımıza çıkıyor. 
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/izvacew1zias17seco1j.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cej43vqheu8o8j3ygati.png)
+
+browser , command ve network history bölümlerini kontrol ediyorum fakat herhangi bir bulgu elde edemeyip araştırmaya devam ediyorum.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tvulw3o3c2gxe0nf8hql.png)
+
+Verilen hash değerini VirusTotal üzerinde aratıyorum fakat herhangi malicious bir geri dönütle karşılaşmıyorum.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/szmbdd91ibncmycxmmaj.png)
+
+Bize verilen zip dosyasını sanal işletim sistemime indirip kontrol etmek istiyorum.    
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/u4cmhr8lhsmkds7zipbr.png)
+
+Ardından zip dosyasının VirusTotal üzerinde aratmak için md5 değerini çıkarıyorum.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/88c00br7zj6j98dnn3r0.png)
+
+Yukarıdaki ekran görüntüsünden de görüleceği gibi herhangi malicious bir bulguyla karşılaşmıyorum ve buna güvenip dosyanın zararsız olduğunu düşünüyorum içini incelemeye geçiyorum.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0axb7fet9225ukq4f0t6.png)
+
+winrar600 isimli bir exe dosyasıyla karşılaşıyorum. Durumunu incelemek üzere VirusTotal ve Hybrid Analysis platformlarına başvuruyorum.
+  
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/brfx75uutu5z5crvmzww.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2gpvm60ugxwz0v7frggc.png)
+
+Yukarıdaki ekran görüntülerinde de gözüktüğü üzere herhangi bir sorun olmadığının geri dönütünü alıyorum.
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qdcqibj324o5yr6zpejn.png)
+
+  
+Fakat exe dosyasını any.run platformu üzerinde çalıştırdığım vakit bana malicious olduğunu geri döndürüyor bu biraz kafamı karıştırıyor.
+
+## Playbook
+
+Artık yeteri kadar analiz yaptığımıza göre playbooku da çözüp davayı kapatabiliriz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cfogn3kg06l7mrayvcgu.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lx2r1z2368e8dn4r2xqj.png)
+
+Bizden tehdit göstergesini tanımlamamız istenmiş other seçip devam ediyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eghtibq02gvnfabnnfau.png)
+
+Bize zararlının karantinaya alınıp alınmadığını veya temizlendiğini soruyor alınmadı seçip devam ediyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/emacfztz1pnc5yqo8nti.png)
+
+Bizden malwarei analiz etmemiz istenmiş biz daha önce yukarıda gerekli analizlerimizi yapmıştık non-malicious seçip devam ediyoruz.  
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/grf39omxzuq5risu6vyv.png)
+
+Bulgularımızın bazılarını giriyoruz.
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uwhj4d0wa94j26hp3bvx.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/j8otcwodqzdhrerowyej.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/otqrygm0wsule21mikt5.png)
+
+Analizi başarılı bir şekilde tamamlıyoruz
